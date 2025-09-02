@@ -1,0 +1,3 @@
+id,question,answers,correct_answers,category,sub_category,level,question_type,explanation
+test1,"What is 2+2?","[""3"",""4"",""5"",""6""]","[1]",excel,"Basic Math",easy,"Single Choice","2+2 equals 4"
+test2,"What is Python?","[""Programming language"",""Snake"",""Game"",""Tool""]","[0]",python,"Basics",easy,"Single Choice","Python is a programming language"
