@@ -17,9 +17,9 @@ try {
     Write-Host "PocketBase not running, starting server..." -ForegroundColor Blue
 }
 
-# Start PocketBase server in background
-Write-Host "Starting PocketBase server..." -ForegroundColor Blue
-$pbProcess = Start-Process -FilePath ".\pocketbase.exe" -ArgumentList "serve" -PassThru -NoNewWindow
+# Start PocketBase server in background with LAN access
+Write-Host "Starting PocketBase server with LAN access..." -ForegroundColor Blue
+$pbProcess = Start-Process -FilePath ".\pocketbase.exe" -ArgumentList "serve", "--http=0.0.0.0:8090" -PassThru -NoNewWindow
 
 # Wait for server to start
 Write-Host "Waiting for server to start..." -ForegroundColor Yellow
@@ -85,6 +85,15 @@ Write-Host "PocketBase Development Server Ready!" -ForegroundColor Green
 Write-Host "Admin UI: http://localhost:8090/_/" -ForegroundColor Cyan
 Write-Host "API Base: http://localhost:8090/api/" -ForegroundColor Cyan
 Write-Host "Collections: questions, quizzes, submissions, users" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "🌐 LAN Access Information:" -ForegroundColor Yellow
+$localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object {$_.IPAddress -like "192.168.*" -or $_.IPAddress -like "10.*" -or $_.IPAddress -like "172.*"} | Select-Object -First 1).IPAddress
+if ($localIP) {
+    Write-Host "   LAN Admin UI: http://$localIP`:8090/_/" -ForegroundColor Green
+    Write-Host "   LAN API Base: http://$localIP`:8090/api/" -ForegroundColor Green
+} else {
+    Write-Host "   Could not detect LAN IP address" -ForegroundColor Red
+}
 Write-Host ""
 Write-Host "Press Ctrl+C to stop the server" -ForegroundColor Yellow
 
